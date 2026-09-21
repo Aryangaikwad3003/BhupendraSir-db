@@ -1,0 +1,15 @@
+const XLSX = require('xlsx');
+const workbook = XLSX.readFile('Master file- Summary - Proj VS actual.xlsx', { sheetStubs: true, sheets: ['Prod data'] });
+const ws = workbook.Sheets['Prod data'];
+const json = XLSX.utils.sheet_to_json(ws, { header: 1, range: 0, defval: null });
+
+for (let i = 0; i < 5; i++) {
+  if (json[i] && json[i].some(v => typeof v === 'string' && v.includes('Date'))) {
+    console.log("Header row found at index:", i);
+    const headerRow = json[i];
+    for (let c = 0; c <= 100; c++) {
+      if (headerRow[c]) console.log(`[${c}] ${headerRow[c]}`);
+    }
+    break;
+  }
+}
